@@ -12,4 +12,6 @@ VERSION ?=(subst v,,$(DRONE_TAG))
 else
 VERSION ?= $(shell git describe --tags --always | sed 's/-/+/' | sed 's/^v//')
 
-LDFLAGS ?=
+LDFLAGS ?= -X github.com/hazelnutkiller/dockertest/version.Version=$(VERSION) -X github.com/hazelnutkiller/dockertest/version.BuildDate=$(BUILD_DATE)
+
+all: build
