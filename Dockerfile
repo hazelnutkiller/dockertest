@@ -12,6 +12,6 @@ RUN go build -o docker_test .
 
 FROM alpine:latest
 WORKDIR /dtest
-COPY --from=buildStage /src/docker_test /dtest/
+COPY --from=buildStage /src/docker_test/ dtest/
 EXPOSE 8080
-ENTRYPOINT [ "./dtest" ] 
+ENTRYPOINT ./dtest

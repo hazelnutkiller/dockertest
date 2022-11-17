@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -12,7 +13,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "i love %s!", r.URL.Path[1:])
 }
 
-func pinger(port string) error { //回傳error interface
+//回傳error interface
+func pinger(port string) error {
 	resp, err := http.Get("http://localhost:" + port)
 	if err != nil {
 		return err
@@ -41,19 +43,25 @@ func main() {
 	flag.StringVar(&port, "p", "8080", "server port")
 	flag.Parse()
 	//使用os包
-	//if p, ok := os.LookupEnv("PORT"); ok {
-	//	port = p
-	//}
+
+	if p, ok := os.LookupEnv("PORT"); ok {
+		port = p
+		fmt.Println(567)
+	}
 
 	//healthy check驗證服務一直都是存在
 	var ping bool
-	flag.BoolVar(&ping, "PORT", false, "check server live")
 
-	if ping { //if ping 為 true
+	flag.BoolVar(&ping, "PORT", false, "check server live")
+	fmt.Println(123)
+	//if ping 為 true
+	ping = true
+	if ping {
 		if err := pinger(port); err != nil {
 			log.Printf("ping server error: %v\n", err)
 		}
 		//下ping時不會去執行http service，所以直接return
+		fmt.Println(234)
 		return
 	}
 
